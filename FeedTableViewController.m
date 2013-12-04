@@ -22,7 +22,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    NSURL *url = [[NSURL alloc] initWithString:@"http://tryios.codeschool.com/feedImages.json"];
+    NSURL *url = [[NSURL alloc] initWithString:@"http://courseware.codeschool.com.s3.amazonaws.com/try_ios/level6demo/feedImages.json"];
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
     
     AFJSONRequestOperation *operation = [AFJSONRequestOperation
@@ -36,7 +36,7 @@
                                              NSLog(@"NSError: %@",[error localizedDescription]);
                                          }];
     
-    [operation start];
+    [operation start];     
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -55,28 +55,28 @@
     
     if(cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"Cell"];
-    }
-    
-    // Finish the statements below to set the values in the cell
+    }    
     
     cell.textLabel.text = self.images[indexPath.row][@"title"];
     cell.detailTextLabel.text = self.images[indexPath.row][@"detail"];
     
-    NSString *filename = self.images[indexPath.row][@"filename"];
-    //NSString *thumbnail = self.images[indexPath.row][@"thumbnail"];
-    [cell.imageView setImageWithURL:[NSURL URLWithString:filename] placeholderImage:[UIImage imageNamed:@"placeholder.jpg"]];
+    NSString *thumbnail = self.images[indexPath.row][@"thumbnail"];
+    
+    [cell.imageView setImageWithURL:[NSURL URLWithString:thumbnail] placeholderImage:[UIImage imageNamed:@"placeholder.jpg"]];
     
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES]; //??
     
     PhotoViewController *photoVC = [[PhotoViewController alloc] init];
     
     photoVC.imageFileName = self.images[indexPath.row][@"filename"];
     photoVC.imageTitle = self.images[indexPath.row][@"title"];
+
+    [self.navigationController pushViewController:photoVC animated:YES];
 }
 
 @end
